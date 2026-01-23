@@ -2,17 +2,21 @@ import { useMemo, useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import { projects } from "./data/projects";
 
-function uniqueTech(all: typeof projects) {
-  const set = new Set<string>();
-  all.forEach((p) => p.tech.forEach((t) => set.add(t)));
-  return ["All", ...Array.from(set).sort()];
-}
-
 export default function App() {
   const [query, setQuery] = useState("");
   const [tech, setTech] = useState("All");
 
-  const techOptions = useMemo(() => uniqueTech(projects), []);
+  const techOptions = useMemo(() => {
+    const allTech = projects.flatMap((p) =>
+      Array.isArray(p.tech) ? p.tech : [],
+    );
+    const uniq = Array.from(new Set(allTech))
+      .map((t) => String(t).trim())
+      .filter((t) => t.length > 0)
+      .sort();
+
+    return ["All", ...uniq];
+  }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

@@ -13,7 +13,8 @@ export const projects: Project[] = [
     title: "Projects Hub (React + TS)",
     description:
       "A projects gallery with search and tech filters, built with React + TypeScript.",
-    tech: ["React", "TypeScript", "Vite"],
+    tech: ["React", "TypeScript", "TEST123"],
+
     repo: "https://github.com/Soodabug",
   },
   {
