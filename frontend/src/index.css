@@ -1,0 +1,276 @@
+:root {
+  --bg: #0b1220;
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel2: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.68);
+  --muted2: rgba(255, 255, 255, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(
+      1200px 800px at 20% 10%,
+      rgba(99, 102, 241, 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 600px at 80% 30%,
+      rgba(34, 211, 238, 0.18),
+      transparent 55%
+    ),
+    var(--bg);
+}
+
+a {
+  color: inherit;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1080px;
+  padding: 44px 18px 28px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+
+.title {
+  margin: 0;
+  font-size: 38px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  color: var(--muted);
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.12);
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 14px;
+  transition:
+    transform 120ms ease,
+    background 120ms ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.16);
+}
+.btn.ghost {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.panel {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 18px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1.6fr 0.8fr;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+.label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  outline: none;
+}
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.meta {
+  margin-top: 10px;
+  color: var(--muted2);
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dot {
+  opacity: 0.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 16px;
+  transition:
+    transform 140ms ease,
+    background 140ms ease;
+  min-height: 168px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card:hover {
+  transform: translateY(-2px);
+  background: var(--panel2);
+}
+
+.cardTop {
+  display: grid;
+  gap: 8px;
+}
+.cardTitle {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+.cardDesc {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 13.5px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+}
+
+.links {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+.link {
+  text-decoration: none;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+}
+.link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.empty {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 16px;
+}
+.empty h3 {
+  margin: 0 0 6px;
+}
+.empty p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.footer {
+  margin-top: 18px;
+  color: var(--muted2);
+  font-size: 12.5px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+}
+
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions {
+    justify-content: flex-start;
+  }
+  .controls {
+    grid-template-columns: 1fr;
+  }
+  .title {
+    font-size: 32px;
+  }
+}
