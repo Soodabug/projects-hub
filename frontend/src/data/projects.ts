@@ -23,7 +23,7 @@ export const projects: Project[] = [
     description:
       "Flashcards app for study sets, covered by Cypress end-to-end tests and a lint and build setup.",
     tech: ["JavaScript", "Cypress"],
-    repo: "https://github.com/Soodabug/nd0011-c4-starter",
+    repo: "https://github.com/Soodabug/study-night-flashcards",
   },
   {
     id: "portfolio",
