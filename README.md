@@ -11,9 +11,10 @@ Live: https://soodabug.github.io/projects-hub/
 ## What it does
 
 - Search by title, description or tech. Not case sensitive.
-- Filter by tech. The dropdown is built from the data, so a project with a new tech adds a new option by itself.
+- Filter by tech. The tech buttons are built from the data, so a project with a new tech adds a new button by itself.
 - The filters are kept in the address, for example `?q=planner&tech=React`, so a filtered view can be sent as a link.
-- "Clear filters" when nothing matches.
+- "Clear filters" when nothing matches, and "Show all" while a filter is on.
+- Tiles slide to their new place when the list changes (Motion), and stay still for people who turned animations off.
 
 ## How it is built
 
@@ -44,7 +45,7 @@ npm test          # Vitest + React Testing Library
 npm run build     # type-check and build
 ```
 
-There are 33 tests in four files:
+There are 35 tests in four files:
 
 - `lib/filterProjects.test.ts` - search and filter rules
 - `lib/urlFilters.test.ts` - filters to address and back

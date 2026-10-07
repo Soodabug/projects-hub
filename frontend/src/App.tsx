@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { MotionConfig, motion } from "motion/react";
 import ProjectCard from "./components/ProjectCard";
 import { projects } from "./data/projects";
 import { ALL_TECH, filterProjects, techOptions } from "./lib/filterProjects";
@@ -35,23 +36,25 @@ export default function App() {
   }
 
   const isFiltered = query.trim().length > 0 || tech !== ALL_TECH;
+  const countText =
+    filtered.length === 1 ? "1 project" : `${filtered.length} projects`;
 
   return (
-    <div className="page">
-      <div className="container">
-        <header className="header">
-          <div>
-            <p className="badge">React • TypeScript • Vite</p>
-            <h1 className="title">Projects Hub</h1>
-            <p className="subtitle">
-              My projects in one place. Search by name or filter by the tech
-              they use.
-            </p>
-          </div>
-
-          <div className="actions">
+    // reducedMotion="user": no movement for people who turned animations off.
+    <MotionConfig reducedMotion="user">
+      <div className="field">
+        <header className="wrap topbar">
+          <p className="brand">
+            <span className="brandMark" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </span>
+            Projects Hub
+          </p>
+          <nav className="toplinks" aria-label="Elsewhere">
             <a
-              className="btn ghost"
               href="https://github.com/Soodabug"
               target="_blank"
               rel="noreferrer"
@@ -59,75 +62,113 @@ export default function App() {
               GitHub
             </a>
             <a
-              className="btn"
               href="https://soodabug.github.io/portfolio-website/"
               target="_blank"
               rel="noreferrer"
             >
               Portfolio
             </a>
-          </div>
+          </nav>
         </header>
 
-        <section className="panel" aria-label="Filters">
-          <div className="controls">
-            <label className="field">
-              <span className="label">Search</span>
+        <div className="wrap">
+          <div className="hero">
+            <motion.h1
+              className="headline"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 180, damping: 22 }}
+            >
+              Things I built.
+            </motion.h1>
+            <motion.p
+              className="lede"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 22,
+                delay: 0.08,
+              }}
+            >
+              Every project has its code and, where there is one, a live
+              version. Search by name or pick a technology.
+            </motion.p>
+          </div>
+
+          <section className="filters" aria-label="Filters">
+            <label className="searchField">
+              <span className="fieldLabel">Search</span>
               <input
-                className="input"
+                className="search"
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search by title, description or tech…"
+                placeholder="Title, description or tech"
               />
             </label>
 
-            <label className="field">
-              <span className="label">Tech</span>
-              <select
-                className="select"
-                value={tech}
-                onChange={(e) => setTech(e.target.value)}
-              >
+            <fieldset className="techGroup">
+              <legend className="fieldLabel">Tech</legend>
+              <div className="chips">
                 {TECH_OPTIONS.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
+                  <label key={option} className="chip">
+                    <input
+                      type="radio"
+                      name="tech"
+                      value={option}
+                      checked={tech === option}
+                      onChange={() => setTech(option)}
+                    />
+                    <span>{option}</span>
+                  </label>
                 ))}
-              </select>
-            </label>
-          </div>
+              </div>
+            </fieldset>
+          </section>
+        </div>
 
-          {/* role="status": screen readers announce the new count after filtering */}
-          <div className="meta" role="status">
-            <span>{filtered.length} project(s)</span>
-            {tech !== ALL_TECH ? <span className="dot">•</span> : null}
-            {tech !== ALL_TECH ? <span>Filtered by: {tech}</span> : null}
-          </div>
-        </section>
-
-        <section className="grid" aria-label="Projects">
-          {filtered.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </section>
-
-        {filtered.length === 0 ? (
-          <div className="empty">
-            <h3>No results</h3>
-            <p>Try a different keyword or change the tech filter.</p>
+        <div className="statusbar">
+          <div className="wrap">
+            {/* role="status": screen readers announce the new count after filtering */}
+            <p role="status">
+              {countText}
+              {tech !== ALL_TECH ? `, filtered by ${tech}` : ""}
+            </p>
             {isFiltered ? (
-              <button type="button" className="btn" onClick={clearFilters}>
-                Clear filters
+              <button type="button" className="clearLink" onClick={clearFilters}>
+                Show all
               </button>
             ) : null}
           </div>
-        ) : null}
-
-        <footer className="footer">
-          <span>Built by Soodabeh • {new Date().getFullYear()}</span>
-        </footer>
+        </div>
       </div>
-    </div>
+
+      <main className="wrap">
+        {filtered.length > 0 ? (
+          <section className="grid" aria-label="Projects">
+            {filtered.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </section>
+        ) : (
+          <div className="empty">
+            <h2>Nothing here.</h2>
+            <p>No project matches that. Try another word or technology.</p>
+            <button type="button" className="button" onClick={clearFilters}>
+              Clear filters
+            </button>
+          </div>
+        )}
+      </main>
+
+      <footer className="footer">
+        <div className="wrap">
+          <p>Built by Soodabeh Malekzadeh, {new Date().getFullYear()}</p>
+          <p>React, TypeScript, Vite</p>
+        </div>
+      </footer>
+    </MotionConfig>
   );
 }
