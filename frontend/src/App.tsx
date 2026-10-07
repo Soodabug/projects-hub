@@ -38,8 +38,8 @@ export default function App() {
             <p className="badge">React • TypeScript • Vite</p>
             <h1 className="title">Projects Hub</h1>
             <p className="subtitle">
-              A small, polished gallery showcasing frontend practice projects
-              with search and tech filters.
+              My projects in one place. Search by name or filter by the tech
+              they use.
             </p>
           </div>
 
