@@ -1,34 +1,40 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import { projects } from "./data/projects";
+import { ALL_TECH, filterProjects, techOptions } from "./lib/filterProjects";
+import { readFilters, toSearchString } from "./lib/urlFilters";
+
+const TECH_OPTIONS = techOptions(projects);
 
 export default function App() {
-  const [query, setQuery] = useState("");
-  const [tech, setTech] = useState("All");
+  // The filters start from the address bar, so a filtered view can be shared as a link.
+  const [initial] = useState(() =>
+    readFilters(window.location.search, TECH_OPTIONS),
+  );
+  const [query, setQuery] = useState(initial.query);
+  const [tech, setTech] = useState(initial.tech);
 
-  const techOptions = useMemo(() => {
-    const allTech = projects.flatMap((p) =>
-      Array.isArray(p.tech) ? p.tech : [],
+  const filtered = useMemo(
+    () => filterProjects(projects, query, tech),
+    [query, tech],
+  );
+
+  // Keep the address bar in step with the filters.
+  useEffect(() => {
+    const search = toSearchString({ query, tech });
+    window.history.replaceState(
+      null,
+      "",
+      window.location.pathname + search + window.location.hash,
     );
-    const uniq = Array.from(new Set(allTech))
-      .map((t) => String(t).trim())
-      .filter((t) => t.length > 0)
-      .sort();
-
-    return ["All", ...uniq];
-  }, []);
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return projects.filter((p) => {
-      const matchesTech = tech === "All" ? true : p.tech.includes(tech);
-      const matchesQuery =
-        q.length === 0
-          ? true
-          : (p.title + " " + p.description).toLowerCase().includes(q);
-      return matchesTech && matchesQuery;
-    });
   }, [query, tech]);
+
+  function clearFilters() {
+    setQuery("");
+    setTech(ALL_TECH);
+  }
+
+  const isFiltered = query.trim().length > 0 || tech !== ALL_TECH;
 
   return (
     <div className="page">
@@ -54,24 +60,25 @@ export default function App() {
             </a>
             <a
               className="btn"
-              href="https://projects-hub-woad.vercel.app"
+              href="https://soodabug.github.io/portfolio-website/"
               target="_blank"
               rel="noreferrer"
             >
-              Live Demo
+              Portfolio
             </a>
           </div>
         </header>
 
-        <section className="panel">
+        <section className="panel" aria-label="Filters">
           <div className="controls">
             <label className="field">
               <span className="label">Search</span>
               <input
                 className="input"
+                type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search by title or description…"
+                placeholder="Search by title, description or tech…"
               />
             </label>
 
@@ -82,25 +89,26 @@ export default function App() {
                 value={tech}
                 onChange={(e) => setTech(e.target.value)}
               >
-                {techOptions.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
+                {TECH_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
                 ))}
               </select>
             </label>
           </div>
 
-          <div className="meta">
+          {/* role="status": screen readers announce the new count after filtering */}
+          <div className="meta" role="status">
             <span>{filtered.length} project(s)</span>
-            {tech !== "All" ? <span className="dot">•</span> : null}
-            {tech !== "All" ? <span>Filtered by: {tech}</span> : null}
+            {tech !== ALL_TECH ? <span className="dot">•</span> : null}
+            {tech !== ALL_TECH ? <span>Filtered by: {tech}</span> : null}
           </div>
         </section>
 
-        <section className="grid">
-          {filtered.map((p) => (
-            <ProjectCard key={p.id} project={p} />
+        <section className="grid" aria-label="Projects">
+          {filtered.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </section>
 
@@ -108,13 +116,16 @@ export default function App() {
           <div className="empty">
             <h3>No results</h3>
             <p>Try a different keyword or change the tech filter.</p>
+            {isFiltered ? (
+              <button type="button" className="btn" onClick={clearFilters}>
+                Clear filters
+              </button>
+            ) : null}
           </div>
         ) : null}
 
         <footer className="footer">
           <span>Built by Soodabeh • {new Date().getFullYear()}</span>
-          <span className="dot">•</span>
-          <span>Deployed on Vercel</span>
         </footer>
       </div>
     </div>

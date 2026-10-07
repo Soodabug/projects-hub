@@ -290,3 +290,14 @@ select option {
   background-color: #0e1526;
   color: rgba(255, 255, 255, 0.95);
 }
+
+.empty .btn {
+  margin-top: 12px;
+}
+
+/* .btn was written for links; a real <button> needs the text color and font passed on. */
+button.btn {
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}

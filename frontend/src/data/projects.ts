@@ -42,6 +42,6 @@ export const projects: Project[] = [
       "This page: a projects gallery with search and tech filters, built with React and TypeScript.",
     tech: ["React", "TypeScript"],
     repo: "https://github.com/Soodabug/projects-hub",
-    live: "https://projects-hub-woad.vercel.app",
+    live: "https://soodabug.github.io/projects-hub/",
   },
 ];
